@@ -1,4 +1,4 @@
-use tch::{nn, Tensor, Device, Kind};
+use tch::{nn, Tensor};
 use tch::nn::Module;
 use crate::core::types::{MarketState, OrderSide, Timeframe};
 
@@ -24,7 +24,7 @@ pub fn create_rl_model(vs: &nn::Path) -> nn::Sequential {
 }
 
 pub fn select_action(model: &nn::Sequential, state: &MarketState) -> OrderSide {
-    let input = Tensor::of_slice(&[
+    let input = Tensor::from_slice(&[
         state.price as f32,
         state.volume as f32,
         state.rsi as f32,
@@ -38,7 +38,7 @@ pub fn select_action(model: &nn::Sequential, state: &MarketState) -> OrderSide {
         state.fear_and_greed as f32,
         state.trades.len() as f32,
         timeframe_to_numeric(&state.timeframe) as f32,
-    ]).view(&[1, 12]);
+    ]).view([1, 12]);
 
     let q_values = model.forward(&input);
     let action_index = q_values.argmax(1, false).int64_value(&[]);

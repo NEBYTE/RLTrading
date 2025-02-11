@@ -55,6 +55,13 @@ git clone https://github.com/NEBYTE/RLTrading.git
 cd RLTrading
 ```
 
+### Setup .env variables
+
+```env
+DATABASE_URL=postgres://user:password@localhost/trade_history
+API_KEY= # BINANCE API KEY -> More exchanges will be implemented in the future
+```
+
 ### Build the Project
 
 ```sh
@@ -115,8 +122,8 @@ tokio = { version = "1.28", features = ["full"] }
 reqwest = { version = "0.11", features = ["json", "blocking"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-tch = "0.5"
-chrono = "0.4"
+tch = "0.19.0"
+chrono = { version = "0.4", features = ["serde"]}
 rust_decimal = "1.29"
 sqlx = { version = "0.6", features = ["runtime-tokio-rustls", "postgres", "macros"] }
 log = "0.4"

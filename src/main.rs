@@ -7,13 +7,24 @@ use crate::core::execution::orders::execute_trade;
 use crate::core::types::{MarketState, Timeframe};
 
 use tokio::runtime::Runtime;
+use dotenv::dotenv;
+use std::env;
 
 fn main() {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL not found");
+    let api_key = env::var("API_KEY").expect("API_KEY not found");
+
+    println!("Database URL: {}", database_url);
+    println!("API Key: {}", api_key);
+
     let rt = Runtime::new().unwrap();
 
-    println!("Welcome to the AI Crypto Trading Bot!");
+    println!("Welcome to the RL Trading Bot!");
+    println!("Please select an option:");
     println!("1: Run Backtest");
-    println!("2: Start Live Trading");
+    println!("2: Start Live Trading (doesn't work on v0.1.0-pre.alpha.1)");
 
     let mut choice = String::new();
     std::io::stdin().read_line(&mut choice).unwrap();
@@ -55,7 +66,7 @@ async fn run_trading_bot() {
 
     for state in market_states {
         if let Some(trade) = execute_trade(&state) {
-            println!("Trade executed: {:?}", trade);
+            println!("Trade executed: {:?}", trade.id);
             save_trade(&trade).await;
         }
     }

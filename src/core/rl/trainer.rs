@@ -1,6 +1,6 @@
-use tch::{nn, Tensor, Device, Kind, nn::OptimizerConfig};
+use tch::{nn, Tensor, Device, nn::OptimizerConfig};
 use tch::nn::Module;
-use crate::core::types::{MarketState, OrderSide};
+use crate::core::types::{MarketState};
 use crate::core::rl::agent::{create_rl_model, select_action, timeframe_to_numeric};
 use crate::core::rl::environment::compute_reward;
 
@@ -10,7 +10,7 @@ pub fn train(states: Vec<MarketState>) {
     let model = create_rl_model(&vs.root());
     let mut optimizer = nn::Adam::default().build(&vs, 1e-3).unwrap();
 
-    for epoch in 0..1000 {
+    for _epoch in 0..1000 {
         for (i, state) in states.iter().enumerate() {
             let action = select_action(&model, state);
 
@@ -22,7 +22,7 @@ pub fn train(states: Vec<MarketState>) {
 
             let reward = compute_reward(action, state.price, next_state.price);
 
-            let input = Tensor::of_slice(&[
+            let input = Tensor::from_slice(&[
                 state.price as f32,
                 state.volume as f32,
                 state.rsi as f32,

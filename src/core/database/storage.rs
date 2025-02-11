@@ -1,10 +1,11 @@
+use std::env;
 use crate::core::types::Trade;
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
 pub async fn get_db_pool() -> PgPool {
     PgPoolOptions::new()
         .max_connections(5)
-        .connect("postgres://user:password@localhost/trade_history")
+        .connect(env::var("DATABASE_URL").expect("DATABASE_URL not found").as_str())
         .await
         .expect("Failed to connect to database")
 }
@@ -59,7 +60,7 @@ pub async fn load_trade_history() -> Vec<Trade> {
             liquidation_price: row.liquidation_price,
             leverage: None,
             exchange_data: crate::core::types::ExchangeData {
-                name: "Database".to_string(),
+                name: Some("Database".to_string()),
                 exchange_id: "db".to_string(),
                 exchange_url: None,
                 exchange_logo: None,

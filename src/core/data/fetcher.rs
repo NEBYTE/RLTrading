@@ -1,14 +1,14 @@
 use serde_json::Value;
-use crate::core::types::{ExchangeData, OrderBook, Trade};
+use crate::core::types::{ExchangeData, OrderBook};
 
 pub async fn fetch_price(symbol: &str) -> Result<f64, reqwest::Error> {
     let url = format!("https://api.binance.com/api/v3/ticker/price?symbol={}", symbol);
-    let response = reqwest::get(&url).await?.json::<Value>().await;
+    let response = reqwest::get(&url).await?.json::<Value>().await?;
     let price = response["price"].as_str().unwrap().parse::<f64>().unwrap();
     Ok(price)
 }
 
-pub async fn fetch_exchange_data() -> Result<ExchangeData, reqwest::Error> {
+pub fn fetch_exchange_data() -> ExchangeData {
     let exchange_data = ExchangeData {
         name: None,
         exchange_name: Option::from("Binance".to_string()),
@@ -18,12 +18,12 @@ pub async fn fetch_exchange_data() -> Result<ExchangeData, reqwest::Error> {
         exchange_id: "1".to_string(),
         exchange_timezone_name: None,
     };
-    Ok(exchange_data)
+    exchange_data
 }
 
 pub async fn fetch_orderbook(symbol: &str) -> Result<OrderBook, reqwest::Error> {
     let url = format!("https://api.binance.com/api/v3/depth?symbol={}&limit=10", symbol);
-    let response = reqwest::get(&url).await?.json::<Value>().await;
+    let response = reqwest::get(&url).await?.json::<Value>().await?;
 
     let bids = response["bids"].as_array()
         .unwrap()

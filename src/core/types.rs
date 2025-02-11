@@ -13,6 +13,7 @@ pub struct ExchangeData {
 }
 
 #[derive(Serialize, Deserialize)]
+#[allow(non_camel_case_types)]
 pub enum Timeframe {
     M1,
     M5,
@@ -57,7 +58,7 @@ pub enum OrderSide {
     Unknown,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize)]
 pub struct Trade {
     pub id: u64,
     pub timestamp: DateTime<Utc>,

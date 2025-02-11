@@ -1,4 +1,4 @@
-use crate::core::types::{ExchangeData, MarketState, OrderSide, Trade};
+use crate::core::types::{MarketState, OrderSide, Trade};
 use crate::core::data::fetcher::fetch_exchange_data;
 use crate::core::rl::agent::{create_rl_model, select_action};
 
@@ -28,7 +28,9 @@ pub fn execute_trade(market_state: &MarketState) -> Option<Trade> {
         let price = market_state.price;
         let amount = 1.0;
         let action_clone = action.clone();
-        let liquid_price = match 1.0 {
+
+        let leverage = Some(1.0);
+        let liquid_price = match leverage {
             Some(l) if l > 1.0 => {
                 let entry_price = price;
                 let margin = entry_price / l;

@@ -1,4 +1,5 @@
 use serde_json::Value;
+use crate::core::data::fetcher::fetch_exchange_data;
 use crate::core::types::{Trade, OrderSide};
 
 pub fn parse_trade_history(response: &Value) -> Vec<Trade> {
@@ -18,6 +19,6 @@ pub fn parse_trade_history(response: &Value) -> Vec<Trade> {
         liquidated: trade["liquidated"].as_bool().unwrap(),
         liquidation_price: trade["liquidation_price"].as_f64().unwrap(),
         leverage: trade["leverage"].as_u64().map(|x| x as u8),
-        exchange_data: super::fetcher::fetch_exchange_data().unwrap(),
+        exchange_data: fetch_exchange_data(),
     }).collect()
 }
