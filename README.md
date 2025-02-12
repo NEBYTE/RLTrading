@@ -2,7 +2,7 @@
 
 # RL Trading (v0.1.0-pre.alpha.1)
 
-[![Maintainer](https://img.shields.io/badge/maintainer-CARLOS-blue)](https://github.com/carlos-crypto)
+[![Maintainer](https://img.shields.io/badge/maintainer-rustyspottedcatt-blue)](https://github.com/carlos-crypto)
 [![Made with Rust](https://img.shields.io/badge/Made%20with-Rust-1f425f.svg)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/License-GNU_AGPLv3-blue)](https://choosealicense.com/licenses/agpl-3.0/)
 
